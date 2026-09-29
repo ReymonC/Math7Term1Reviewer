@@ -1,0 +1,2200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 7 Math Reviewer - Quarter 1 (Philippine DepEd)</title>
+<style>
+  :root {
+    --primary: #1e3a8a;
+    --primary-light: #3b82f6;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #0f172a;
+    --text-muted: #475569;
+    --border: #cbd5e1;
+    --success: #166534;
+    --success-bg: #dcfce7;
+    --danger: #991b1b;
+    --danger-bg: #fee2e2;
+    --warning: #854d0e;
+    --warning-bg: #fef9c3;
+    --sec1: #0d9488;
+    --sec2: #6366f1;
+    --sec3: #ea580c;
+    --sec4: #2563eb;
+    --sec5: #059669;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  body { background: var(--bg); color: var(--text); line-height: 1.5; padding-bottom: 60px; }
+
+  header {
+    background: linear-gradient(135deg, #1e3a8a, #1e40af);
+    color: white;
+    padding: 22px 16px;
+    text-align: center;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  }
+  header h1 { font-size: 1.55rem; margin-bottom: 4px; letter-spacing: -0.02em; }
+  header p { font-size: 0.9rem; opacity: 0.92; max-width: 650px; margin: 0 auto; }
+  .deped-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 2px 10px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 18px 16px; }
+
+  /* Overall Progress Box */
+  .overall-progress-card {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  }
+  .progress-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+  .progress-bar-track {
+    width: 100%;
+    height: 12px;
+    background: #e2e8f0;
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #059669);
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+  .all-cleared-banner {
+    display: none;
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: #ecfdf5;
+    border: 1.5px solid #6ee7b7;
+    border-radius: 8px;
+    color: #065f46;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  .all-cleared-banner.show { display: block; animation: fadeIn 0.3s ease; }
+
+  /* Navigation Bar */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s ease;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-outline { background: white; border: 1.5px solid var(--border); color: var(--text); }
+  .btn-outline:hover { background: #f1f5f9; }
+  .btn-success { background: #15803d; color: white; }
+  .btn-success:hover { background: #16a34a; }
+  .btn-refresh { background: #475569; color: white; }
+  .btn-refresh:hover { background: #334155; }
+
+  .set-badge {
+    background: #e2e8f0;
+    color: #334155;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 9999px;
+  }
+
+  /* Status Badges */
+  .status-pill {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .status-unattempted { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+  .status-cleared { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+  .status-mastered { background: #fef08a; color: #854d0e; border: 1px solid #facc15; }
+  .status-retry { background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
+
+  /* Toast Notification */
+  .toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0f172a;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(10px);
+  }
+
+  /* Homepage Cards */
+  .grid-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 12px;
+  }
+  @media(min-width: 640px) {
+    .grid-cards { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .card-item {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-item::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+  }
+  .card-item.c1::before { background: var(--sec1); }
+  .card-item.c2::before { background: var(--sec2); }
+  .card-item.c3::before { background: var(--sec3); }
+  .card-item.c4::before { background: var(--sec4); }
+  .card-item.c5::before { background: var(--sec5); }
+
+  .card-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08);
+    border-color: #94a3b8;
+  }
+  .card-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .card-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+  .c1 .card-badge { background: #ccfbf1; color: #115e59; }
+  .c2 .card-badge { background: #e0e7ff; color: #4338ca; }
+  .c3 .card-badge { background: #ffedd5; color: #9a3412; }
+  .c4 .card-badge { background: #dbeafe; color: #1d4ed8; }
+  .c5 .card-badge { background: #d1fae5; color: #065f46; }
+
+  .card-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; color: #0f172a; }
+  .card-desc { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 14px; flex-grow: 1; }
+  .card-meta { font-size: 0.8rem; font-weight: 600; color: #64748b; display: flex; justify-content: space-between; align-items: center; }
+
+  /* Guide Accordion */
+  .guide-card {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .guide-header {
+    background: #f1f5f9;
+    padding: 12px 16px;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    font-size: 0.92rem;
+  }
+  .guide-content {
+    padding: 14px 16px;
+    font-size: 0.88rem;
+    color: #334155;
+    line-height: 1.6;
+    border-top: 1px solid #e2e8f0;
+  }
+  .guide-content ul, .guide-content ol { padding-left: 20px; margin: 6px 0; }
+  .guide-content li { margin-bottom: 4px; }
+  .guide-rule-box {
+    background: #f8fafc;
+    border-left: 4px solid var(--primary-light);
+    padding: 8px 12px;
+    margin: 8px 0;
+    border-radius: 0 6px 6px 0;
+  }
+
+  /* Question Cards */
+  .question-item {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    transition: border-color 0.2s, background-color 0.2s;
+  }
+  .question-item.status-correct { border-color: #22c55e; background: #f0fdf4; }
+  .question-item.status-wrong { border-color: #ef4444; background: #fef2f2; }
+  .question-item.status-partial { border-color: #eab308; background: #fefce8; }
+
+  .q-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #64748b;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .q-text {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: #0f172a;
+    line-height: 1.5;
+  }
+
+  /* Keyword Highlighting for Word Problems */
+  .kw {
+    background-color: #fef08a;
+    color: #854d0e;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 4px;
+    border-bottom: 2px solid #ca8a04;
+  }
+
+  /* MC Options */
+  .mc-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .mc-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1.5px solid #e2e8f0;
+    background: #ffffff;
+    cursor: pointer;
+    font-size: 0.92rem;
+    transition: all 0.15s ease;
+  }
+  .mc-label:hover { background: #f8fafc; border-color: #94a3b8; }
+  .mc-label input[type="radio"] { accent-color: var(--primary); width: 18px; height: 18px; cursor: pointer; }
+  .mc-label.selected { border-color: var(--primary-light); background: #eff6ff; font-weight: 600; }
+
+  /* Input fields */
+  .input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .num-input {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1.5px solid #cbd5e1;
+    outline: none;
+    max-width: 140px;
+  }
+  .num-input:focus { border-color: var(--primary); }
+  .unit-text { font-size: 0.9rem; font-weight: 600; color: #475569; }
+
+  /* Mixed & Proper Fraction Input (Whole + Num/Den) */
+  .mixed-input-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #f1f5f9;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1.5px solid #cbd5e1;
+  }
+  .whole-box {
+    width: 64px;
+    text-align: center;
+    padding: 8px 4px;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 6px;
+    border: 1.5px solid #94a3b8;
+    outline: none;
+  }
+  .whole-box:focus { border-color: var(--primary); }
+  .frac-box {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    width: 58px;
+  }
+  .frac-box input {
+    width: 100%;
+    text-align: center;
+    padding: 4px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: 4px;
+    border: 1.5px solid #94a3b8;
+    outline: none;
+  }
+  .frac-box input:focus { border-color: var(--primary); }
+  .frac-bar {
+    width: 100%;
+    height: 2px;
+    background: #334155;
+  }
+  .frac-hint {
+    font-size: 0.78rem;
+    color: #64748b;
+    margin-left: 2px;
+  }
+
+  /* Feedback box */
+  .feedback-box {
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    display: none;
+  }
+  .feedback-box.show { display: block; animation: fadeIn 0.25s ease; }
+  .fb-correct { background: var(--success-bg); color: var(--success); border: 1px solid #86efac; }
+  .fb-wrong { background: var(--danger-bg); color: var(--danger); border: 1px solid #fca5a5; }
+  .fb-partial { background: var(--warning-bg); color: var(--warning); border: 1px solid #fde047; }
+
+  .fb-work {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed rgba(0,0,0,0.15);
+    color: #1e293b;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.84rem;
+    white-space: pre-line;
+  }
+
+  /* Score Summary Bar */
+  .score-card {
+    background: white;
+    border: 2px solid var(--primary);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    display: none;
+  }
+  .score-card.show { display: block; animation: slideDown 0.3s ease; }
+  .score-num { font-size: 2.2rem; font-weight: 800; color: var(--primary); line-height: 1; margin: 4px 0 6px 0; }
+  .score-msg { font-size: 0.95rem; font-weight: 600; color: #334155; }
+  .clearance-alert {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+  .clearance-alert.cleared { background: #dcfce7; color: #166534; }
+  .clearance-alert.retry { background: #fef9c3; color: #854d0e; }
+
+  /* Sticky Footer Actions */
+  .sticky-footer {
+    position: sticky;
+    bottom: 0;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid #cbd5e1;
+    padding: 12px 16px;
+    margin: 30px -16px -60px -16px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    z-index: 10;
+  }
+
+  .hidden { display: none !important; }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideDown { from { transform: translateY(-8px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+</style>
+</head>
+<body>
+
+<div id="toast-msg" class="toast">✨ New set generated!</div>
+
+<header>
+  <div class="deped-tag">Philippine DepEd Curriculum &bull; Math 7</div>
+  <h1>Quarter 1 Comprehensive Reviewer</h1>
+  <p>Track your clearance across all 5 areas. Proper fractions and mixed fractions only!</p>
+</header>
+
+<div class="container">
+
+  <!-- HOME VIEW -->
+  <div id="view-home">
+
+    <!-- Overall Progress Box -->
+    <div class="overall-progress-card">
+      <div class="progress-head">
+        <span>Quarter 1 Review Clearance</span>
+        <span id="overall-status-text">0 of 5 Parts Cleared (0%)</span>
+      </div>
+      <div class="progress-bar-track">
+        <div id="overall-progress-fill" class="progress-bar-fill"></div>
+      </div>
+      <div id="all-cleared-banner" class="all-cleared-banner">
+        🎉 Maligayang Bati! You have cleared all 5 parts of Quarter 1 Math 7!
+      </div>
+    </div>
+
+    <div style="margin-bottom: 12px;">
+      <h2 style="font-size: 1.3rem; font-weight: 800; color: #1e293b;">Select a Review Section</h2>
+      <p style="font-size: 0.9rem; color: #64748b;">Proper fractions and mixed fractions only for fraction answers. 75%+ to clear.</p>
+    </div>
+
+    <div class="grid-cards">
+      <!-- Part 1 -->
+      <div class="card-item c1" onclick="app.startSection(1)">
+        <div>
+          <div class="card-top-row">
+            <span class="card-badge">Part I &bull; 6 Items</span>
+            <span id="badge-part-1" class="status-pill status-unattempted">Not Started</span>
+          </div>
+          <div class="card-title">HCF &amp; LCM Word Problems</div>
+          <div class="card-desc">Dividing into greatest identical sets or finding repeated cycle intervals (2 terms only, numbers 2 to 16).</div>
+        </div>
+        <div class="card-meta"><span>6 Applied Problems</span> <span>Open &rarr;</span></div>
+      </div>
+
+      <!-- Part 2 -->
+      <div class="card-item c2" onclick="app.startSection(2)">
+        <div>
+          <div class="card-top-row">
+            <span class="card-badge">Part II &bull; 10 Items</span>
+            <span id="badge-part-2" class="status-pill status-unattempted">Not Started</span>
+          </div>
+          <div class="card-title">Positive &amp; Negative Integers</div>
+          <div class="card-desc">Multiple-choice conceptual questions: sea level, elevation, profit/debt, temperature, and opposites.</div>
+        </div>
+        <div class="card-meta"><span>10 Conceptual MCQs</span> <span>Open &rarr;</span></div>
+      </div>
+
+      <!-- Part 3 -->
+      <div class="card-item c3" onclick="app.startSection(3)">
+        <div>
+          <div class="card-top-row">
+            <span class="card-badge">Part III &bull; 25 Items</span>
+            <span id="badge-part-3" class="status-pill status-unattempted">Not Started</span>
+          </div>
+          <div class="card-title">Operations: Integers &amp; Fractions</div>
+          <div class="card-desc">15 integer drills (+, −, ×, ÷) and 10 fraction drills (proper fractions &amp; mixed fractions only).</div>
+        </div>
+        <div class="card-meta"><span>15 Integers + 10 Fractions</span> <span>Open &rarr;</span></div>
+      </div>
+
+      <!-- Part 4 -->
+      <div class="card-item c4" onclick="app.startSection(4)">
+        <div>
+          <div class="card-top-row">
+            <span class="card-badge">Part IV &bull; 8 Items</span>
+            <span id="badge-part-4" class="status-pill status-unattempted">Not Started</span>
+          </div>
+          <div class="card-title">Word Problems on Integers</div>
+          <div class="card-desc">Philippine contexts featuring Addition, Subtraction, Multiplication, and Division of integers (strictly 2 terms).</div>
+        </div>
+        <div class="card-meta"><span>8 Localized Scenarios</span> <span>Open &rarr;</span></div>
+      </div>
+
+      <!-- Part 5 -->
+      <div class="card-item c5" onclick="app.startSection(5)">
+        <div>
+          <div class="card-top-row">
+            <span class="card-badge">Part V &bull; 8 Items</span>
+            <span id="badge-part-5" class="status-pill status-unattempted">Not Started</span>
+          </div>
+          <div class="card-title">Word Problems on Fractions</div>
+          <div class="card-desc">Everyday Philippine contexts: recipes, cloth, rice, and ribbons (proper &amp; mixed fractions only).</div>
+        </div>
+        <div class="card-meta"><span>8 Applied Problems</span> <span>Open &rarr;</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION VIEW -->
+  <div id="view-section" class="hidden">
+    <div class="top-bar">
+      <button class="btn btn-outline" onclick="app.goHome()">&larr; Back to Home</button>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <span id="in-section-status-badge" class="status-pill status-unattempted">Not Cleared</span>
+        <span id="set-counter-badge" class="set-badge">Set #1</span>
+        <button class="btn btn-refresh" onclick="app.regenerateCurrentSection()">&#x21bb; New Set</button>
+      </div>
+    </div>
+
+    <!-- Section Title & Info -->
+    <div style="margin-bottom: 14px;">
+      <h2 id="sec-title" style="font-size: 1.35rem; font-weight: 800; color: #0f172a;"></h2>
+      <p id="sec-desc" style="font-size: 0.9rem; color: #475569;"></p>
+    </div>
+
+    <!-- Collapsible Guides Placeholder -->
+    <div id="guide-container"></div>
+
+    <!-- Score Banner -->
+    <div id="score-card" class="score-card">
+      <div style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b;">Review Result</div>
+      <div id="score-num" class="score-num">0 / 0</div>
+      <div id="score-msg" class="score-msg"></div>
+      <div id="score-clearance-status" class="clearance-alert"></div>
+    </div>
+
+    <!-- Questions Container -->
+    <div id="questions-container"></div>
+
+    <!-- Sticky footer with check answers -->
+    <div class="sticky-footer">
+      <button class="btn btn-success" style="padding: 10px 24px; font-size: 1rem;" onclick="app.checkAnswers()">&#10003; Check Answers</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* =========================================================================
+   MATH 7 DepEd TERM 1 REVIEWER ENGINE
+   - Mixed Fractions & Proper Fractions Only (Improper fractions rejected)
+   - 2-term operations across all sections
+   - In-memory clearance tracking (75% DepEd passing standard)
+   ========================================================================= */
+
+const utils = {
+  randInt: (min, max) => Math.floor(Math.random() * (max - min + 1)) + min,
+  choice: (arr) => arr[Math.floor(Math.random() * arr.length)],
+  shuffle: (arr) => {
+    const copy = [...arr];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  },
+  gcd: (a, b) => {
+    a = Math.abs(a); b = Math.abs(b);
+    while (b) { const t = b; b = a % b; a = t; }
+    return a;
+  },
+  lcm: (a, b) => Math.abs(a * b) / utils.gcd(a, b),
+
+  // Convert an improper or proper fraction into simplified Proper, Mixed, or Whole form
+  toMixedOrProper: (n, d) => {
+    if (d === 0) return { type: "invalid", whole: 0, num: 0, den: 1, display: "0" };
+    const sign = (n * d < 0) ? -1 : 1;
+    n = Math.abs(n);
+    d = Math.abs(d);
+    const g = utils.gcd(n, d);
+    n = n / g;
+    d = d / g;
+
+    if (d === 1) {
+      return {
+        type: "whole",
+        whole: sign * n,
+        num: 0,
+        den: 1,
+        display: `${sign * n}`
+      };
+    }
+    if (n < d) {
+      return {
+        type: "proper",
+        whole: 0,
+        num: sign * n,
+        den: d,
+        display: `${sign * n}/${d}`
+      };
+    }
+    // Mixed Fraction
+    const w = Math.floor(n / d);
+    const rem = n % d;
+    return {
+      type: "mixed",
+      whole: sign * w,
+      num: rem,
+      den: d,
+      display: `${sign * w} ${rem}/${d}`
+    };
+  }
+};
+
+/* Application State */
+const state = {
+  currentSection: 1,
+  setCounts: { 1: 1, 2: 1, 3: 1, 4: 1, 5: 1 },
+  partProgress: {
+    1: { attempted: false, cleared: false, bestScore: 0, bestPct: 0, total: 6 },
+    2: { attempted: false, cleared: false, bestScore: 0, bestPct: 0, total: 10 },
+    3: { attempted: false, cleared: false, bestScore: 0, bestPct: 0, total: 25 },
+    4: { attempted: false, cleared: false, bestScore: 0, bestPct: 0, total: 8 },
+    5: { attempted: false, cleared: false, bestScore: 0, bestPct: 0, total: 8 }
+  },
+  questions: [],
+  checked: false
+};
+
+const app = {
+  showToast: (msg) => {
+    const t = document.getElementById("toast-msg");
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 2000);
+  },
+
+  updateHomeProgressUI: () => {
+    let clearedCount = 0;
+    for (let i = 1; i <= 5; i++) {
+      const p = state.partProgress[i];
+      const badge = document.getElementById(`badge-part-${i}`);
+      if (!p.attempted) {
+        badge.className = "status-pill status-unattempted";
+        badge.textContent = "Not Started";
+      } else if (p.cleared) {
+        clearedCount++;
+        if (p.bestPct === 100) {
+          badge.className = "status-pill status-mastered";
+          badge.innerHTML = `🏆 Mastered (100%)`;
+        } else {
+          badge.className = "status-pill status-cleared";
+          badge.innerHTML = `✓ Cleared (${p.bestScore}/${p.total} &bull; ${p.bestPct}%)`;
+        }
+      } else {
+        badge.className = "status-pill status-retry";
+        badge.innerHTML = `↻ Review (${p.bestScore}/${p.total} &bull; ${p.bestPct}%)`;
+      }
+    }
+
+    const pct = Math.round((clearedCount / 5) * 100);
+    document.getElementById("overall-status-text").textContent = `${clearedCount} of 5 Parts Cleared (${pct}%)`;
+    document.getElementById("overall-progress-fill").style.width = `${pct}%`;
+
+    const banner = document.getElementById("all-cleared-banner");
+    if (clearedCount === 5) {
+      banner.classList.add("show");
+    } else {
+      banner.classList.remove("show");
+    }
+  },
+
+  startSection: (secId) => {
+    state.currentSection = secId;
+    state.checked = false;
+    document.getElementById("view-home").classList.add("hidden");
+    document.getElementById("view-section").classList.remove("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    app.renderSection();
+  },
+
+  goHome: () => {
+    document.getElementById("view-section").classList.add("hidden");
+    document.getElementById("view-home").classList.remove("hidden");
+    app.updateHomeProgressUI();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  },
+
+  regenerateCurrentSection: () => {
+    state.setCounts[state.currentSection]++;
+    state.checked = false;
+    app.renderSection();
+    app.showToast(`✨ Fresh Set #${state.setCounts[state.currentSection]} Generated!`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  },
+
+  renderSection: () => {
+    const sec = state.currentSection;
+    const titleEl = document.getElementById("sec-title");
+    const descEl = document.getElementById("sec-desc");
+    const guideEl = document.getElementById("guide-container");
+    const scoreCard = document.getElementById("score-card");
+    const setBadge = document.getElementById("set-counter-badge");
+    const inSecStatusBadge = document.getElementById("in-section-status-badge");
+    scoreCard.classList.remove("show");
+
+    setBadge.textContent = `Set #${state.setCounts[sec]}`;
+
+    const p = state.partProgress[sec];
+    if (p.cleared) {
+      inSecStatusBadge.className = "status-pill status-cleared";
+      inSecStatusBadge.innerHTML = `✓ Cleared (${p.bestScore}/${p.total})`;
+    } else if (p.attempted) {
+      inSecStatusBadge.className = "status-pill status-retry";
+      inSecStatusBadge.innerHTML = `↻ Attempted (${p.bestScore}/${p.total})`;
+    } else {
+      inSecStatusBadge.className = "status-pill status-unattempted";
+      inSecStatusBadge.textContent = "Not Cleared";
+    }
+
+    if (sec === 1) {
+      titleEl.innerHTML = "Part I: HCF &amp; LCM Word Problems";
+      descEl.textContent = "Analyze each 2-term problem using the highlighted clue keywords, decide whether HCF or LCM is needed, and solve.";
+      guideEl.innerHTML = `
+        <div class="guide-card">
+          <div class="guide-header" onclick="this.nextElementSibling.classList.toggle('hidden')">
+            <span>&#128218; How to Answer Part I: HCF vs LCM Clues</span>
+            <span>&#9662;</span>
+          </div>
+          <div class="guide-content">
+            <div class="guide-rule-box">
+              <strong>Look for HCF clues:</strong> Dividing or packing into the <em>greatest number of identical sets</em>, <em>equal boxes</em>, or <em>no leftovers</em>.<br>
+              &bull; <em>Method:</em> List the factors or use prime factorization to find the highest common divisor.
+            </div>
+            <div class="guide-rule-box">
+              <strong>Look for LCM clues:</strong> Repeated cycles, events occurring <em>again together</em>, <em>at the same time</em>, or <em>every X and Y intervals</em>.<br>
+              &bull; <em>Method:</em> List multiples or take the highest prime powers to find the least common multiple.
+            </div>
+          </div>
+        </div>
+      `;
+      state.questions = generators.generatePart1();
+    } else if (sec === 2) {
+      titleEl.innerHTML = "Part II: Multiple Choice on Positive and Negative Integers";
+      descEl.textContent = "Choose the best conceptual representation of positive and negative integers in real-life situations.";
+      guideEl.innerHTML = `
+        <div class="guide-card">
+          <div class="guide-header" onclick="this.nextElementSibling.classList.toggle('hidden')">
+            <span>&#128218; How to Answer Part II: Conceptual Guide</span>
+            <span>&#9662;</span>
+          </div>
+          <div class="guide-content">
+            <ul>
+              <li><strong>Positive (+)</strong>: Above sea level, temperature above 0&deg;C, deposits, profit/gain, upward movements, rising values.</li>
+              <li><strong>Negative (&minus;)</strong>: Below sea level, depth/underwater, temperature below 0&deg;C, withdrawals/spending, debt/utang, downward movements, dropping values.</li>
+              <li><strong>Opposites</strong>: Numbers like +15 and &minus;15 are at the <em>same distance from zero</em>, but in <em>opposite directions</em>.</li>
+            </ul>
+          </div>
+        </div>
+      `;
+      state.questions = generators.generatePart2();
+    } else if (sec === 3) {
+      titleEl.innerHTML = "Part III: Basic Operations on Integers and Fractions";
+      descEl.textContent = "Solve 15 integer operations and 10 fraction operations. Answers must be proper fractions or mixed fractions in lowest terms!";
+      guideEl.innerHTML = `
+        <div class="guide-card">
+          <div class="guide-header" onclick="this.nextElementSibling.classList.toggle('hidden')">
+            <span>&#128218; Guide on Integers (Operations)</span>
+            <span>&#9662;</span>
+          </div>
+          <div class="guide-content">
+            <div class="guide-rule-box">
+              <strong>Addition (+):</strong> Same signs &rarr; Add absolute values, keep sign. Different signs &rarr; Subtract smaller absolute value from larger, take sign of larger.
+            </div>
+            <div class="guide-rule-box">
+              <strong>Subtraction (&minus;):</strong> Keep &ndash; Change &ndash; Change (Add the opposite).
+            </div>
+            <div class="guide-rule-box">
+              <strong>Multiplication (&times;) &amp; Division (&divide;):</strong> Same signs &rarr; Positive (+). Different signs &rarr; Negative (&minus;).
+            </div>
+          </div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-header" onclick="this.nextElementSibling.classList.toggle('hidden')">
+            <span>&#128218; Guide on Fractions: Proper &amp; Mixed Fractions Only</span>
+            <span>&#9662;</span>
+          </div>
+          <div class="guide-content">
+            <div class="guide-rule-box">
+              <strong>IMPORTANT RULE:</strong> Only <strong>Proper Fractions</strong> (e.g., 3/4) and <strong>Mixed Fractions</strong> (e.g., 1 1/2) are accepted. <em>Improper fractions (e.g., 5/4 or 19/18) will be marked as needing conversion!</em><br>
+              &bull; If answer is &lt; 1: Leave the <strong>Whole</strong> box blank, enter <strong>Num / Den</strong>.<br>
+              &bull; If answer is &gt; 1: Enter the whole number in <strong>Whole</strong>, and remainder in <strong>Num / Den</strong> (e.g., 5/4 &rarr; Whole: 1, Num: 1, Den: 4).<br>
+              &bull; Always simplify to lowest terms!
+            </div>
+          </div>
+        </div>
+      `;
+      state.questions = generators.generatePart3();
+    } else if (sec === 4) {
+      titleEl.innerHTML = "Part IV: Word Problems on Integers (Philippine Context)";
+      descEl.textContent = "Read each localized scenario, inspect the highlighted clue keywords, set up a 2-term integer expression (+, −, ×, or ÷), and solve.";
+      guideEl.innerHTML = `
+        <div class="guide-card">
+          <div class="guide-header" onclick="this.nextElementSibling.classList.toggle('hidden')">
+            <span>&#128218; How to Answer Part IV: Step-by-Step Strategy</span>
+            <span>&#9662;</span>
+          </div>
+          <div class="guide-content">
+            <ol>
+              <li><strong>Locate the highlighted clue keywords</strong> to determine whether the problem combines values (+), finds changes (&minus;), scales repeated occurrences (&times;), or splits a deficit equally (&divide;).</li>
+              <li><strong>Determine signs:</strong> Losses, depths, and debts are negative (&minus;); gains and rises are positive (+).</li>
+              <li><strong>Formulate a 2-term integer expression</strong> and compute following sign rules.</li>
+            </ol>
+          </div>
+        </div>
+      `;
+      state.questions = generators.generatePart4();
+    } else if (sec === 5) {
+      titleEl.innerHTML = "Part V: Word Problems on Fractions (Philippine Context)";
+      descEl.textContent = "Solve everyday Filipino scenarios. Express answers as proper fractions or mixed fractions in simplest terms.";
+      guideEl.innerHTML = `
+        <div class="guide-card">
+          <div class="guide-header" onclick="this.nextElementSibling.classList.toggle('hidden')">
+            <span>&#128218; How to Answer Part V: Proper &amp; Mixed Fractions Only</span>
+            <span>&#9662;</span>
+          </div>
+          <div class="guide-content">
+            <p>Inspect the <span class="kw">highlighted keywords</span> to choose the right operation. Convert any result greater than 1 into a <strong>mixed fraction</strong> (e.g. 1 1/18 or 2 2/5). Improper fractions are not accepted.</p>
+          </div>
+        </div>
+      `;
+      state.questions = generators.generatePart5();
+    }
+
+    app.renderQuestionList();
+  },
+
+  renderQuestionList: () => {
+    const container = document.getElementById("questions-container");
+    container.innerHTML = "";
+
+    state.questions.forEach((q, idx) => {
+      const qDiv = document.createElement("div");
+      qDiv.className = "question-item";
+      qDiv.id = `q-card-${idx}`;
+
+      let inputHtml = "";
+      if (q.type === "mcq") {
+        inputHtml = `
+          <div class="mc-options">
+            ${q.options.map((opt, optIdx) => `
+              <label class="mc-label" id="mc-label-${idx}-${optIdx}">
+                <input type="radio" name="mc-${idx}" value="${opt.letter}" onchange="app.onSelectMCQ(${idx}, '${opt.letter}')">
+                <span><strong>${opt.letter}.</strong> ${opt.text}</span>
+              </label>
+            `).join("")}
+          </div>
+        `;
+      } else if (q.type === "fraction") {
+        // 3-Box Mixed & Proper Fraction Input
+        inputHtml = `
+          <div class="input-row">
+            <span style="font-weight: 600; font-size: 0.95rem; color: #334155;">Answer:</span>
+            <div class="mixed-input-wrap">
+              <input type="number" id="ans-${idx}-whole" class="whole-box" placeholder="Whole" aria-label="Whole number">
+              <div class="frac-box">
+                <input type="number" id="ans-${idx}-num" placeholder="Num" aria-label="Numerator">
+                <div class="frac-bar"></div>
+                <input type="number" id="ans-${idx}-den" placeholder="Den" aria-label="Denominator">
+              </div>
+            </div>
+            ${q.unit ? `<span class="unit-text">${q.unit}</span>` : ""}
+            <span class="frac-hint">(If proper fraction, leave "Whole" blank; if whole number, leave fraction blank)</span>
+          </div>
+        `;
+      } else {
+        inputHtml = `
+          <div class="input-row">
+            <span style="font-weight: 600; font-size: 0.95rem; color: #334155;">Answer:</span>
+            <input type="number" class="num-input" id="ans-${idx}" placeholder="Enter integer">
+            ${q.unit ? `<span class="unit-text">${q.unit}</span>` : ""}
+          </div>
+        `;
+      }
+
+      qDiv.innerHTML = `
+        <div class="q-header">
+          <span>Item ${idx + 1} of ${state.questions.length}</span>
+          <span>${q.neutralTag || "Problem"}</span>
+        </div>
+        <div class="q-text">${q.prompt}</div>
+        ${inputHtml}
+        <div class="feedback-box" id="fb-${idx}"></div>
+      `;
+      container.appendChild(qDiv);
+    });
+  },
+
+  onSelectMCQ: (qIdx, letter) => {
+    state.questions[qIdx].userChoice = letter;
+    const labels = document.querySelectorAll(`[id^="mc-label-${qIdx}-"]`);
+    labels.forEach(lbl => lbl.classList.remove("selected"));
+    const selectedRadio = document.querySelector(`input[name="mc-${qIdx}"][value="${letter}"]`);
+    if (selectedRadio) {
+      selectedRadio.closest(".mc-label").classList.add("selected");
+    }
+  },
+
+  checkAnswers: () => {
+    let correctCount = 0;
+    const total = state.questions.length;
+
+    state.questions.forEach((q, idx) => {
+      const qCard = document.getElementById(`q-card-${idx}`);
+      const fbBox = document.getElementById(`fb-${idx}`);
+      qCard.classList.remove("status-correct", "status-wrong", "status-partial");
+
+      let isCorrect = false;
+      let isPartial = false;
+      let userFeedback = "";
+
+      if (q.type === "mcq") {
+        const selected = q.userChoice;
+        if (selected === q.correctLetter) {
+          isCorrect = true;
+          userFeedback = `<div><strong>Correct! (${q.correctLetter})</strong></div><div class="fb-work">${q.explanation}</div>`;
+        } else {
+          isCorrect = false;
+          const chosenOpt = q.options.find(o => o.letter === selected);
+          const mistakeNote = chosenOpt ? chosenOpt.distractorWhy : "No option selected.";
+          userFeedback = `
+            <div><strong>Incorrect.</strong> You chose <em>${selected || "none"}</em>. The correct option is <strong>${q.correctLetter}</strong>.</div>
+            <div style="margin-top: 4px;"><em>Why your choice was incorrect:</em> ${mistakeNote}</div>
+            <div class="fb-work">${q.explanation}</div>
+          `;
+        }
+      } else if (q.type === "fraction") {
+        const rawW = document.getElementById(`ans-${idx}-whole`).value.trim();
+        const rawN = document.getElementById(`ans-${idx}-num`).value.trim();
+        const rawD = document.getElementById(`ans-${idx}-den`).value.trim();
+
+        const userWhole = rawW === "" ? 0 : parseInt(rawW, 10);
+        const userN = rawN === "" ? 0 : parseInt(rawN, 10);
+        const userD = rawD === "" ? 1 : parseInt(rawD, 10);
+
+        const target = q.targetObj; // { type: 'proper'|'mixed'|'whole', whole, num, den, display }
+
+        if (rawW === "" && rawN === "" && rawD === "") {
+          isCorrect = false;
+          userFeedback = `
+            <div><strong>No answer provided.</strong> The correct answer is <strong>${target.display} ${q.unit || ""}</strong>.</div>
+            <div class="fb-work">${q.solutionWork}</div>
+          `;
+        } else if (userD === 0) {
+          isCorrect = false;
+          userFeedback = `
+            <div><strong>Invalid denominator!</strong> Denominator cannot be 0.</div>
+            <div>The correct answer is: <strong>${target.display} ${q.unit || ""}</strong></div>
+            <div class="fb-work">${q.solutionWork}</div>
+          `;
+        } else {
+          // Check for improper fraction rejection:
+          // If student left whole blank (or 0) and entered an improper fraction (userN >= userD where userD > 1)
+          const isImproperFractionEntered = (rawW === "" || userWhole === 0) && (userN >= userD && userD > 1);
+
+          // Calculate total user value as improper fraction: (whole * den + num) / den
+          const userTotalN = (userWhole * userD) + userN;
+          const userTotalD = userD;
+
+          // Simplify user's input mathematically
+          const userSimp = utils.toMixedOrProper(userTotalN, userTotalD);
+          const isMathematicallyEqual = (userSimp.whole === target.whole && userSimp.num === target.num && userSimp.den === target.den);
+
+          if (isMathematicallyEqual) {
+            if (isImproperFractionEntered) {
+              // Mathematical value is correct, but format violates rule: "only accept mixed fractions and proper fractions"
+              isPartial = true;
+              userFeedback = `
+                <div><strong>Almost! Convert to a Mixed Fraction.</strong> Your value <em>${userN}/${userD}</em> is equal in value, but <strong>improper fractions are not accepted</strong>.</div>
+                <div>Please express as a mixed fraction: <strong>${target.display} ${q.unit || ""}</strong></div>
+                <div class="fb-work">${q.solutionWork}</div>
+              `;
+            } else if (userWhole === target.whole && userN === target.num && userD === target.den) {
+              // Exact simplified proper or mixed fraction match!
+              isCorrect = true;
+              userFeedback = `
+                <div><strong>Excellent! Correct &amp; Fully Simplified: ${target.display} ${q.unit || ""}</strong></div>
+                <div class="fb-work">${q.solutionWork}</div>
+              `;
+            } else if (userN > 0 && userD > 1 && utils.gcd(userN, userD) > 1) {
+              // Unsimplified fraction part in mixed number
+              isPartial = true;
+              userFeedback = `
+                <div><strong>Almost! Simplify the fraction part.</strong> Your fraction <em>${userN}/${userD}</em> must be reduced to lowest terms.</div>
+                <div>Simplified form: <strong>${target.display} ${q.unit || ""}</strong></div>
+                <div class="fb-work">${q.solutionWork}</div>
+              `;
+            } else {
+              // Other variation that is mathematically equal
+              isCorrect = true;
+              userFeedback = `
+                <div><strong>Correct! ${target.display} ${q.unit || ""}</strong></div>
+                <div class="fb-work">${q.solutionWork}</div>
+              `;
+            }
+          } else {
+            isCorrect = false;
+            let formatNote = "";
+            if (isImproperFractionEntered) {
+              formatNote = `<em>Note: Remember that answers must be in mixed fraction or proper fraction form.</em><br>`;
+            }
+            userFeedback = `
+              <div><strong>Incorrect.</strong> The correct answer is <strong>${target.display} ${q.unit || ""}</strong>.</div>
+              ${formatNote}
+              <div class="fb-work">${q.solutionWork}</div>
+            `;
+          }
+        }
+      } else {
+        // Integer input
+        const rawVal = document.getElementById(`ans-${idx}`).value.trim();
+        const userNum = parseInt(rawVal, 10);
+
+        if (rawVal === "" || isNaN(userNum)) {
+          isCorrect = false;
+          userFeedback = `
+            <div><strong>No answer provided.</strong> The correct answer is <strong>${q.correctAnswer} ${q.unit || ""}</strong>.</div>
+            <div class="fb-work">${q.solutionWork}</div>
+          `;
+        } else if (userNum === q.correctAnswer) {
+          isCorrect = true;
+          userFeedback = `
+            <div><strong>Correct! ${q.correctAnswer} ${q.unit || ""}</strong></div>
+            <div class="fb-work">${q.solutionWork}</div>
+          `;
+        } else {
+          isCorrect = false;
+          let hint = "";
+          if (userNum === -q.correctAnswer) {
+            hint = "Magnitude is correct, but watch the sign (+ / -)! Check direction or operation rules.";
+          }
+          userFeedback = `
+            <div><strong>Incorrect.</strong> You answered <em>${userNum}</em>. The correct answer is <strong>${q.correctAnswer} ${q.unit || ""}</strong>.</div>
+            ${hint ? `<div style="margin-top: 4px; color: #b91c1c;"><em>Notice:</em> ${hint}</div>` : ""}
+            <div class="fb-work">${q.solutionWork}</div>
+          `;
+        }
+      }
+
+      fbBox.className = "feedback-box show";
+      if (isCorrect) {
+        correctCount++;
+        qCard.classList.add("status-correct");
+        fbBox.classList.add("fb-correct");
+      } else if (isPartial) {
+        qCard.classList.add("status-partial");
+        fbBox.classList.add("fb-partial");
+      } else {
+        qCard.classList.add("status-wrong");
+        fbBox.classList.add("fb-wrong");
+      }
+      fbBox.innerHTML = userFeedback;
+    });
+
+    // Score & Clearance Calculation
+    const pct = Math.round((correctCount / total) * 100);
+    const sec = state.currentSection;
+    const progress = state.partProgress[sec];
+    progress.attempted = true;
+    progress.bestScore = Math.max(progress.bestScore, correctCount);
+    progress.bestPct = Math.max(progress.bestPct, pct);
+
+    const isCleared = pct >= 75;
+    if (isCleared) {
+      progress.cleared = true;
+    }
+
+    const scoreCard = document.getElementById("score-card");
+    const scoreNum = document.getElementById("score-num");
+    const scoreMsg = document.getElementById("score-msg");
+    const statusBox = document.getElementById("score-clearance-status");
+
+    scoreNum.textContent = `${correctCount} / ${total}`;
+
+    let msg = "";
+    if (pct === 100) msg = "Ingenious! Outstanding 100% mastery! 🎉";
+    else if (pct >= 80) msg = "Great job! You have passed comfortably above the 75% DepEd passing standard.";
+    else if (pct >= 75) msg = "Good effort! You met the 75% clearance mark. Check remaining rationales below!";
+    else msg = "Passing mark is 75%. Read the step-by-step rationales below and try a New Set to clear this part!";
+
+    scoreMsg.innerHTML = `${pct}% &bull; ${msg}`;
+
+    if (isCleared) {
+      statusBox.className = "clearance-alert cleared";
+      statusBox.innerHTML = `✓ PART CLEARED! (${pct}% &ge; 75%)`;
+    } else {
+      statusBox.className = "clearance-alert retry";
+      statusBox.innerHTML = `↻ NOT YET CLEARED (${pct}% &lt; 75% passing mark)`;
+    }
+
+    const inSecStatusBadge = document.getElementById("in-section-status-badge");
+    if (progress.cleared) {
+      inSecStatusBadge.className = "status-pill status-cleared";
+      inSecStatusBadge.innerHTML = `✓ Cleared (${progress.bestScore}/${progress.total})`;
+    } else {
+      inSecStatusBadge.className = "status-pill status-retry";
+      inSecStatusBadge.innerHTML = `↻ Attempted (${progress.bestScore}/${progress.total})`;
+    }
+
+    scoreCard.classList.add("show");
+    scoreCard.scrollIntoView({ behavior: "smooth", block: "center" });
+    state.checked = true;
+  }
+};
+
+/* =========================================================================
+   RANDOMIZED GENERATORS WITH PROPER AND MIXED FRACTIONS
+   ========================================================================= */
+
+const generators = {
+
+  /* PART I: 6 Items on HCF/LCM (2 terms only, numbers 2 to 16, HCF > 1) */
+  generatePart1: () => {
+    const generateHcfPair = () => {
+      const g = utils.choice([2, 3, 4, 5, 6]);
+      const maxMult = Math.floor(16 / g);
+      const multCandidates = [];
+      for (let m = 2; m <= maxMult; m++) multCandidates.push(m);
+      if (multCandidates.length < 2) return [g * 2, g * 3];
+      const m1 = utils.choice(multCandidates);
+      const remaining = multCandidates.filter(m => m !== m1 && utils.gcd(m1, m) === 1);
+      const m2 = remaining.length > 0 ? utils.choice(remaining) : (m1 === 2 ? 3 : 2);
+      return [g * m1, g * m2];
+    };
+
+    const generateLcmPair = () => {
+      const pairs = [
+        [3, 4], [4, 6], [6, 8], [4, 5], [6, 9], [6, 10],
+        [8, 12], [3, 5], [4, 8], [5, 6], [2, 6], [3, 6],
+        [4, 10], [6, 15], [8, 10], [5, 10], [9, 12], [10, 12]
+      ];
+      return utils.choice(pairs);
+    };
+
+    const item1 = () => {
+      const [a, b] = generateHcfPair();
+      const ans = utils.gcd(a, b);
+      const teacher = utils.choice(["Teacher Maria", "Sir Ramon", "Teacher Liza", "Sir Aris", "Teacher Karen"]);
+      const itemA = utils.choice(["pencils", "crayons", "ballpens", "rulers"]);
+      const itemB = utils.choice(["erasers", "notepads", "sharpeners", "glue sticks"]);
+      return {
+        prompt: `${teacher} has <strong>${a}</strong> ${itemA} and <strong>${b}</strong> ${itemB}. She wants to divide them into the <span class="kw">greatest possible number of identical sets</span>, with <span class="kw">no items left over</span>. How many identical sets can she make?`,
+        type: "integer",
+        unit: "sets",
+        correctAnswer: ans,
+        neutralTag: "Practical Problem",
+        solutionWork: `Clue keyword: "greatest possible number of identical sets with no items left over".
+This indicates finding the Highest Common Factor (HCF) of ${a} and ${b}.
+Factors of ${a}: ${factorsList(a).join(", ")}
+Factors of ${b}: ${factorsList(b).join(", ")}
+HCF(${a}, ${b}) = ${ans}.
+She can make ${ans} identical sets.`
+      };
+    };
+
+    const item2 = () => {
+      const [m1, m2] = generateLcmPair();
+      const ans = utils.lcm(m1, m2);
+      const time = utils.choice(["7:00 AM", "8:00 AM", "9:00 AM", "1:00 PM"]);
+      return {
+        prompt: `Two school bells in the high school building ring at different intervals. One bell rings <span class="kw">every ${m1} minutes</span>, while the other rings <span class="kw">every ${m2} minutes</span>. If they both ring at ${time}, in how many minutes will they <span class="kw">ring together again</span>?`,
+        type: "integer",
+        unit: "minutes",
+        correctAnswer: ans,
+        neutralTag: "Interval Problem",
+        solutionWork: `Clue keywords: "every ${m1} minutes", "every ${m2} minutes", "ring together again".
+This represents recurring periodic cycles, so we find the Least Common Multiple (LCM) of ${m1} and ${m2}.
+Multiples of ${m1}: ${m1}, ${m1*2}, ${m1*3}, ...
+Multiples of ${m2}: ${m2}, ${m2*2}, ${m2*3}, ...
+LCM(${m1}, ${m2}) = ${ans}.
+They will ring together again in ${ans} minutes.`
+      };
+    };
+
+    const item3 = () => {
+      const [f1, f2] = generateHcfPair();
+      const ans = utils.gcd(f1, f2);
+      const student = utils.choice(["Joshua", "Daniel", "Bea", "Kaye", "Patrick", "Andrea"]);
+      const color1 = utils.choice(["red", "green", "yellow"]);
+      const color2 = utils.choice(["blue", "purple", "orange"]);
+      return {
+        prompt: `${student} has <strong>${f1}</strong> ${color1} craft folders and <strong>${f2}</strong> ${color2} craft folders. He wants to arrange them into <span class="kw">identical packets</span> for his group mates, with <span class="kw">no folders left over</span>. What is the <span class="kw">greatest number of groups</span> that can be made?`,
+        type: "integer",
+        unit: "packets",
+        correctAnswer: ans,
+        neutralTag: "Grouping Problem",
+        solutionWork: `Clue keywords: "identical packets", "no folders left over", "greatest number of groups".
+This requires finding the Highest Common Factor (HCF) of ${f1} and ${f2}.
+Factors of ${f1}: ${factorsList(f1).join(", ")}
+Factors of ${f2}: ${factorsList(f2).join(", ")}
+HCF(${f1}, ${f2}) = ${ans}.
+The greatest number of packets is ${ans}.`
+      };
+    };
+
+    const item4 = () => {
+      const [d1, d2] = generateLcmPair();
+      const ans = utils.lcm(d1, d2);
+      const name1 = utils.choice(["Ana", "Lito", "Carlo", "Grace", "Bianca"]);
+      const name2 = utils.choice(["Ben", "Mark", "Sarah", "Paolo", "Gabriel"]);
+      const place = utils.choice(["barangay library", "public market", "computer center", "botika"]);
+      return {
+        prompt: `${name1} visits the ${place} <span class="kw">every ${d1} days</span>, while ${name2} visits <span class="kw">every ${d2} days</span>. If both visited today, after how many days will they <span class="kw">visit together again on the same day</span>?`,
+        type: "integer",
+        unit: "days",
+        correctAnswer: ans,
+        neutralTag: "Scheduling Problem",
+        solutionWork: `Clue keywords: "every ${d1} days", "every ${d2} days", "visit together again on the same day".
+This indicates the Least Common Multiple (LCM) of ${d1} and ${d2}.
+LCM(${d1}, ${d2}) = ${ans}.
+They will meet again in ${ans} days.`
+      };
+    };
+
+    const item5 = () => {
+      const [c1, c2] = generateHcfPair();
+      const ans = utils.gcd(c1, c2);
+      const baker = utils.choice(["Aling Rosa", "Mang Tomas", "Nanay Gloria", "Ate Vicky", "Manang Joy"]);
+      const treat1 = utils.choice(["polvoron", "pastillas", "yema", "ube cookies"]);
+      const treat2 = utils.choice(["macaroons", "choco crinkles", "barquillos", "tartlets"]);
+      return {
+        prompt: `${baker} prepared <strong>${c1}</strong> pieces of ${treat1} and <strong>${c2}</strong> pieces of ${treat2}. She wants to pack them into the <span class="kw">largest possible number of identical gift boxes</span>, <span class="kw">using all of the sweets</span>. How many boxes can she pack?`,
+        type: "integer",
+        unit: "boxes",
+        correctAnswer: ans,
+        neutralTag: "Packaging Problem",
+        solutionWork: `Clue keywords: "largest possible number of identical gift boxes", "using all sweets (no leftovers)".
+This requires the Highest Common Factor (HCF) of ${c1} and ${c2}.
+Factors of ${c1}: ${factorsList(c1).join(", ")}
+Factors of ${c2}: ${factorsList(c2).join(", ")}
+HCF(${c1}, ${c2}) = ${ans}.
+She can pack ${ans} boxes.`
+      };
+    };
+
+    const item6 = () => {
+      const [r1, r2] = generateLcmPair();
+      const ans = utils.lcm(r1, r2);
+      const term = utils.choice(["tricycle terminal", "jeepney terminal", "UV express depot"]);
+      return {
+        prompt: `Two shuttle vans leave the ${term} along different routes. Van Route A returns <span class="kw">every ${r1} minutes</span>, while Van Route B returns <span class="kw">every ${r2} minutes</span>. If they depart at the same time, after how many minutes will both vans <span class="kw">arrive back at the terminal at the exact same time</span>?`,
+        type: "integer",
+        unit: "minutes",
+        correctAnswer: ans,
+        neutralTag: "Cycle Problem",
+        solutionWork: `Clue keywords: "every ${r1} minutes", "every ${r2} minutes", "arrive back at the terminal at the exact same time".
+This is an LCM problem for 2 intervals.
+LCM(${r1}, ${r2}) = ${ans}.
+Both vans will arrive back at the terminal together in ${ans} minutes.`
+      };
+    };
+
+    return utils.shuffle([item1(), item2(), item3(), item4(), item5(), item6()]);
+  },
+
+  /* PART II: 10 Conceptual MCQ items on positive/negative integers */
+  generatePart2: () => {
+    const lossVal = utils.randInt(3, 15);
+    const tempAbove = utils.randInt(4, 18);
+    const depthVal = utils.randInt(5, 25);
+    const gcashStart = utils.randInt(4, 9) * 100;
+    const gcashSpent = utils.randInt(1, 3) * 50;
+    const gcashEnd = gcashStart - gcashSpent;
+    const flStart = utils.randInt(2, 6);
+    const flBasement = utils.randInt(1, 4);
+    const flChange = -(flStart + flBasement);
+    const scoreGain = utils.randInt(5, 12);
+    const scoreLoss = utils.randInt(6, 14);
+    const coldMorn = -utils.randInt(2, 6);
+    const noonWarm = utils.randInt(2, 8);
+    const netRise = noonWarm - coldMorn;
+    const subStart = -utils.randInt(15, 30);
+    const subRiseDist = utils.randInt(8, 14);
+    const subEnd = subStart + subRiseDist;
+    const utangVal = utils.randInt(10, 40) * 10;
+    const oppDist = utils.randInt(12, 28);
+
+    const questionsRaw = [
+      {
+        scenario: `Which situation is best represented by the integer <strong>&minus;${lossVal}</strong>?`,
+        correct: `Losing ${lossVal} points in a competition game`,
+        explanation: `Negative integers represent losses, deductions, drops, depths, or debts. Losing ${lossVal} points is &minus;${lossVal}.`,
+        distractors: [
+          { text: `Gaining ${lossVal} points in a competition game`, why: `Gaining represents an increase, which is positive (+${lossVal}).` },
+          { text: `Saving ₱${lossVal} inside an alkansya (coin bank)`, why: `Saving or depositing money increases total savings, represented by (+${lossVal}).` },
+          { text: `Receiving ₱${lossVal} in change from the sari-sari store`, why: `Receiving money increases cash on hand, represented by (+${lossVal}).` }
+        ]
+      },
+      {
+        scenario: `A weather thermometer in Tagaytay reads <strong>+${tempAbove}&deg;C</strong>. What does this reading signify?`,
+        correct: `The temperature is ${tempAbove} degrees above zero`,
+        explanation: `Positive signs (+) denote quantities greater than or above the reference mark 0.`,
+        distractors: [
+          { text: `The temperature is ${tempAbove} degrees below zero`, why: `Below zero indicates freezing or negative temperatures (&minus;${tempAbove}&deg;C).` },
+          { text: `The temperature changed by exactly 0 degrees`, why: `+${tempAbove}&deg;C is a specific temperature reading ${tempAbove} degrees above zero.` },
+          { text: `The temperature is dropping toward zero`, why: `+${tempAbove}&deg;C designates a current state above zero, not a direction of decrease.` }
+        ]
+      },
+      {
+        scenario: `A freediver in Anilao, Batangas is at <strong>${depthVal} meters below sea level</strong>. Which integer represents the diver's position relative to sea level?`,
+        correct: `&minus;${depthVal} meters`,
+        explanation: `Sea level is the baseline (0). Any depth below sea level is indicated by a negative integer.`,
+        distractors: [
+          { text: `+${depthVal} meters`, why: `Positive integers denote positions above sea level (e.g. altitude/hills).` },
+          { text: `0 meters`, why: `0 meters is the exact sea surface.` },
+          { text: `&minus;${depthVal * 2} meters`, why: `The given depth is ${depthVal} meters, not double.` }
+        ]
+      },
+      {
+        scenario: `A sari-sari store owner's GCash wallet changed from ₱${gcashStart} to ₱${gcashEnd} after paying an electric bill. Which integer best represents the <span class="kw">change</span> in balance?`,
+        correct: `&minus;${gcashSpent} because the balance decreased by ₱${gcashSpent}`,
+        explanation: `Change = Final &minus; Initial = ${gcashEnd} &minus; ${gcashStart} = &minus;${gcashSpent}. A decrease in funds is represented by a negative integer.`,
+        distractors: [
+          { text: `+${gcashSpent} because ₱${gcashSpent} was paid out`, why: `A decrease in money is negative (&minus;${gcashSpent}), not positive.` },
+          { text: `+${gcashEnd} because ₱${gcashEnd} remains in the wallet`, why: `₱${gcashEnd} is the ending balance, not the net change in balance.` },
+          { text: `&minus;${gcashEnd} because money was spent`, why: `Only ₱${gcashSpent} was spent, so the change is &minus;${gcashSpent}, not &minus;${gcashEnd}.` }
+        ]
+      },
+      {
+        scenario: `An SM Mall elevator moves from the <strong>${flStart}th floor (+${flStart})</strong> down to the <strong>${flBasement}rd basement level (&minus;${flBasement})</strong>. If ground floor is 0, what is the net change in floor level?`,
+        correct: `${flChange} floors because it moved downward by ${Math.abs(flChange)} levels`,
+        explanation: `Change = Final &minus; Initial = (&minus;${flBasement}) &minus; (+${flStart}) = ${flChange} floors. Moving downward is negative.`,
+        distractors: [
+          { text: `&minus;${flStart - flBasement} floor because ${flStart} &minus; ${flBasement} = ${flStart - flBasement}`, why: `Basement ${flBasement} is &minus;${flBasement}. Moving from +${flStart} down to &minus;${flBasement} is ${Math.abs(flChange)} floors, not ${flStart - flBasement}.` },
+          { text: `+${Math.abs(flChange)} floors because ${Math.abs(flChange)} total floors were passed`, why: `Downward displacement is negative (${flChange}), not positive.` },
+          { text: `+1 floor because basement is lower`, why: `Descending levels must have a negative sign.` }
+        ]
+      },
+      {
+        scenario: `During an inter-school match, a team gained ${scoreGain} points in set one and lost ${scoreLoss} points in set two. Which statement correctly models the two changes?`,
+        correct: `The first is positive (+${scoreGain}); the second is negative (&minus;${scoreLoss})`,
+        explanation: `Gaining points is an addition (+${scoreGain}); losing points is a subtraction/deficit (&minus;${scoreLoss}).`,
+        distractors: [
+          { text: `Both changes are positive because they involve points`, why: `Point losses must be represented by negative numbers.` },
+          { text: `Both changes are negative because scores can fluctuate`, why: `Gains are positive.` },
+          { text: `The first is negative (&minus;${scoreGain}); the second is positive (+${scoreLoss})`, why: `This reverses the direction of both changes.` }
+        ]
+      },
+      {
+        scenario: `At dawn in Baguio City, the temperature was <strong>${coldMorn}&deg;C</strong>. By noon, it registered <strong>+${noonWarm}&deg;C</strong>. What does this change indicate?`,
+        correct: `The temperature became ${netRise} degrees warmer`,
+        explanation: `From ${coldMorn}&deg;C up to 0&deg;C is ${Math.abs(coldMorn)} degrees, and from 0&deg;C to +${noonWarm}&deg;C is another ${noonWarm} degrees. Total rise = +${noonWarm} &minus; (${coldMorn}) = +${netRise}&deg;C.`,
+        distractors: [
+          { text: `The temperature became ${netRise} degrees colder`, why: `The temperature moved up from below freezing into positive degrees.` },
+          { text: `The temperature became ${noonWarm - Math.abs(coldMorn)} degrees warmer`, why: `Subtracting ignores that ${coldMorn}&deg;C was already below zero.` },
+          { text: `The temperature became 1 degree colder`, why: `The value increased significantly.` }
+        ]
+      },
+      {
+        scenario: `A Philippine Navy submarine is submerged at <strong>${subStart} meters</strong> and rises to <strong>${subEnd} meters</strong>. Which statement best describes its movement?`,
+        correct: `It moved ${subRiseDist} meters upward toward the surface`,
+        explanation: `Final &minus; Initial = (${subEnd}) &minus; (${subStart}) = ${subRiseDist} meters (upward motion).`,
+        distractors: [
+          { text: `It moved ${subRiseDist} meters downward into deeper ocean`, why: `${subEnd} m is shallower than ${subStart} m, meaning it went up.` },
+          { text: `It moved ${Math.abs(subStart) + Math.abs(subEnd)} meters upward toward the surface`, why: `Incorrectly adds the two depths together.` },
+          { text: `It moved ${subRiseDist} meters downward`, why: `The submarine rose closer to sea level.` }
+        ]
+      },
+      {
+        scenario: `Two students describe an utang (debt) of ₱${utangVal} at a sari-sari store. Ana records <strong>+${utangVal}</strong>, while Ben records <strong>&minus;${utangVal}</strong>. Which explanation is most accurate?`,
+        correct: `Ben is correct because debt represents money owed or a financial deficit`,
+        explanation: `In mathematics and financial balances, money owed (utang) is represented by a negative integer.`,
+        distractors: [
+          { text: `Ana is correct because all amounts of money must be positive numbers`, why: `While currency itself is positive, a debt represents a negative net balance.` },
+          { text: `Both are correct because signs do not matter in finance`, why: `Signs distinguish between owning money (+) and owing money (&minus;).` },
+          { text: `Neither is correct because money cannot be expressed as integers`, why: `Integers are standard for modeling deficits and balances.` }
+        ]
+      },
+      {
+        scenario: `A climber on Mt. Banahaw is at <strong>+${oppDist} meters</strong> relative to the trail station, while a spelunker is at <strong>&minus;${oppDist} meters</strong> relative to the same station. What does comparing their integers show?`,
+        correct: `They are equally distant from the station (${oppDist} m) but in opposite vertical directions`,
+        explanation: `|+${oppDist}| = |&minus;${oppDist}| = ${oppDist} meters (equal distance from reference mark), with opposite vertical directions.`,
+        distractors: [
+          { text: `Both are at the identical location above the station`, why: `One is above (+${oppDist}) and the other is below (&minus;${oppDist}).` },
+          { text: `The climber is farther from the station than the spelunker`, why: `Both are exactly ${oppDist} meters away.` },
+          { text: `They are moving in the same direction at different distances`, why: `Opposite signs signify opposite directions.` }
+        ]
+      }
+    ];
+
+    const formatted = questionsRaw.map((item) => {
+      const allChoices = [
+        { text: item.correct, isCorrect: true, distractorWhy: "" },
+        ...item.distractors.map(d => ({ text: d.text, isCorrect: false, distractorWhy: d.why }))
+      ];
+      const shuffled = utils.shuffle(allChoices);
+      const letters = ["A", "B", "C", "D"];
+      let correctLetter = "";
+
+      const options = shuffled.map((c, i) => {
+        const letter = letters[i];
+        if (c.isCorrect) correctLetter = letter;
+        return {
+          letter: letter,
+          text: c.text,
+          distractorWhy: c.distractorWhy
+        };
+      });
+
+      return {
+        prompt: item.scenario,
+        type: "mcq",
+        neutralTag: "Concept Check",
+        options: options,
+        correctLetter: correctLetter,
+        explanation: item.explanation,
+        userChoice: null
+      };
+    });
+
+    return utils.shuffle(formatted);
+  },
+
+  /* PART III: 15 Integer Operations + 10 Fractions (strictly 2 terms, 2-16) */
+  generatePart3: () => {
+    const list = [];
+
+    const intGens = [
+      () => {
+        const a = utils.randInt(5, 16);
+        const b = utils.randInt(2, 16);
+        const ans = -a + b;
+        return {
+          prompt: `Evaluate: <strong>(&minus;${a}) + ${b}</strong>`,
+          ans: ans,
+          work: `Different signs: Subtract absolute values: |${Math.max(a,b)}| - |${Math.min(a,b)}| = ${Math.abs(b - a)}.\nKeep sign of the larger absolute value -> ${ans}.`
+        };
+      },
+      () => {
+        const a = utils.randInt(4, 16);
+        const b = utils.randInt(2, 12);
+        const ans = a - (-b);
+        return {
+          prompt: `Evaluate: <strong>${a} &minus; (&minus;${b})</strong>`,
+          ans: ans,
+          work: `Keep - Change - Change:\n${a} - (-${b}) = ${a} + (+${b}) = ${ans}.`
+        };
+      },
+      () => {
+        const a = utils.randInt(2, 12);
+        const b = utils.randInt(2, 12);
+        const ans = -a + (-b);
+        return {
+          prompt: `Evaluate: <strong>(&minus;${a}) + (&minus;${b})</strong>`,
+          ans: ans,
+          work: `Same signs (both negative):\nAdd absolute values: ${a} + ${b} = ${a + b}.\nKeep the common sign -> &minus;${a + b}.`
+        };
+      },
+      () => {
+        const a = utils.randInt(2, 9);
+        const b = utils.randInt(a + 2, 16);
+        const ans = a - b;
+        return {
+          prompt: `Evaluate: <strong>${a} &minus; ${b}</strong>`,
+          ans: ans,
+          work: `Keep - Change - Change: ${a} + (-${b}).\nSubtract magnitudes: ${b} - ${a} = ${b - a}, sign of larger absolute value is negative -> ${ans}.`
+        };
+      },
+      () => {
+        const a = utils.randInt(2, 12);
+        const b = utils.randInt(2, 12);
+        const ans = -a * b;
+        return {
+          prompt: `Evaluate: <strong>(&minus;${a}) &times; ${b}</strong>`,
+          ans: ans,
+          work: `Different signs in multiplication result in a NEGATIVE.\n${a} * ${b} = ${a * b} -> &minus;${a * b}.`
+        };
+      },
+      () => {
+        const b = utils.randInt(2, 8);
+        const mult = utils.randInt(2, Math.floor(16 / b));
+        const a = b * mult;
+        const ans = -mult;
+        return {
+          prompt: `Evaluate: <strong>(&minus;${a}) &divide; ${b}</strong>`,
+          ans: ans,
+          work: `Different signs in division result in a NEGATIVE.\n${a} / ${b} = ${mult} -> &minus;${mult}.`
+        };
+      },
+      () => {
+        const a = utils.randInt(4, 16);
+        const b = utils.randInt(3, 16);
+        const ans = a + (-b);
+        return {
+          prompt: `Evaluate: <strong>${a} + (&minus;${b})</strong>`,
+          ans: ans,
+          work: `Different signs: Subtract absolute values: ${Math.abs(a - b)}.\nKeep sign of the larger absolute value -> ${ans}.`
+        };
+      },
+      () => {
+        const a = utils.randInt(5, 16);
+        const b = utils.randInt(2, 15);
+        const ans = -a - (-b);
+        return {
+          prompt: `Evaluate: <strong>(&minus;${a}) &minus; (&minus;${b})</strong>`,
+          ans: ans,
+          work: `Keep - Change - Change: (&minus;${a}) + (+${b}) = ${ans}.`
+        };
+      },
+      () => {
+        const a = utils.randInt(2, 8);
+        const b = utils.randInt(2, 8);
+        const ans = a * b;
+        return {
+          prompt: `Evaluate: <strong>(&minus;${a}) &times; (&minus;${b})</strong>`,
+          ans: ans,
+          work: `Same signs (negative times negative) result in a POSITIVE.\n${a} * ${b} = +${ans}.`
+        };
+      },
+      () => {
+        const b = utils.randInt(2, 7);
+        const mult = utils.randInt(2, Math.floor(16 / b));
+        const a = b * mult;
+        const ans = -mult;
+        return {
+          prompt: `Evaluate: <strong>${a} &divide; (&minus;${b})</strong>`,
+          ans: ans,
+          work: `Positive divided by negative results in a NEGATIVE.\n${a} / ${b} = ${mult} -> &minus;${mult}.`
+        };
+      },
+      () => {
+        const a = utils.randInt(3, 10);
+        const b = utils.randInt(a + 1, 16);
+        const ans = -a + b;
+        return {
+          prompt: `Evaluate: <strong>(&minus;${a}) + ${b}</strong>`,
+          ans: ans,
+          work: `Different signs: ${b} - ${a} = ${ans}.\nSince ${b} > ${a}, sign is positive -> +${ans}.`
+        };
+      },
+      () => {
+        const a = utils.randInt(2, 9);
+        const b = utils.randInt(2, 8);
+        const ans = -(a * b);
+        return {
+          prompt: `Evaluate: <strong>${a} &times; (&minus;${b})</strong>`,
+          ans: ans,
+          work: `Positive times negative gives negative.\n${a} * ${b} = ${a*b} -> &minus;${a*b}.`
+        };
+      },
+      () => {
+        const a = utils.randInt(7, 16);
+        const b = utils.randInt(2, 10);
+        const ans = a + b;
+        return {
+          prompt: `Evaluate: <strong>${a} &minus; (&minus;${b})</strong>`,
+          ans: ans,
+          work: `Keep - Change - Change: ${a} + (+${b}) = ${ans}.`
+        };
+      },
+      () => {
+        const b = utils.randInt(2, 6);
+        const mult = utils.randInt(2, Math.floor(16 / b));
+        const a = b * mult;
+        const ans = -mult;
+        return {
+          prompt: `Evaluate: <strong>(&minus;${a}) &divide; ${b}</strong>`,
+          ans: ans,
+          work: `Negative divided by positive results in a NEGATIVE.\n${a} / ${b} = ${mult} -> &minus;${mult}.`
+        };
+      },
+      () => {
+        const a = utils.randInt(2, 7);
+        const b = utils.randInt(2, 7);
+        const ans = a * b;
+        return {
+          prompt: `Evaluate: <strong>(&minus;${a}) &times; (&minus;${b})</strong>`,
+          ans: ans,
+          work: `Negative times negative results in a POSITIVE.\n${a} * ${b} = +${ans}.`
+        };
+      }
+    ];
+
+    intGens.forEach((fn) => {
+      const q = fn();
+      list.push({
+        prompt: q.prompt,
+        type: "integer",
+        unit: "",
+        correctAnswer: q.ans,
+        neutralTag: "Integer Drill",
+        solutionWork: q.work
+      });
+    });
+
+    // 10 Fractions (Answers as Proper Fractions or Mixed Fractions)
+    const fracGens = [
+      () => {
+        const d1 = utils.choice([4, 6, 8]);
+        const d2 = utils.choice([3, 5, 9]);
+        const n1 = utils.randInt(1, d1 - 1);
+        const n2 = utils.randInt(1, d2 - 1);
+        const rawN = (n1 * d2) + (n2 * d1);
+        const rawD = d1 * d2;
+        const target = utils.toMixedOrProper(rawN, rawD);
+        return {
+          prompt: `Evaluate: <strong>${n1}/${d1} + ${n2}/${d2}</strong>`,
+          rawN, rawD, target,
+          work: `LCD of ${d1} and ${d2} is ${utils.lcm(d1, d2)}.\nAdd numerators: ${rawN}/${rawD}.\nForm required (Proper / Mixed fraction in lowest terms): ${target.display}.`
+        };
+      },
+      () => {
+        const d1 = utils.choice([4, 8, 12]);
+        const d2 = utils.choice([3, 5, 6]);
+        const n1 = d1 - 1;
+        const n2 = 1;
+        const rawN = (n1 * d2) - (n2 * d1);
+        const rawD = d1 * d2;
+        const target = utils.toMixedOrProper(rawN, rawD);
+        return {
+          prompt: `Evaluate: <strong>${n1}/${d1} &minus; ${n2}/${d2}</strong>`,
+          rawN, rawD, target,
+          work: `LCD of ${d1} and ${d2} is ${utils.lcm(d1, d2)}.\nSubtract numerators: ${rawN}/${rawD}.\nLowest terms (Proper fraction): ${target.display}.`
+        };
+      },
+      () => {
+        const pair = utils.choice([
+          { n1: 2, d1: 3, n2: 3, d2: 8 },
+          { n1: 3, d1: 4, n2: 2, d2: 5 },
+          { n1: 4, d1: 7, n2: 7, d2: 12 },
+          { n1: 5, d1: 6, n2: 3, d2: 10 }
+        ]);
+        const rawN = pair.n1 * pair.n2;
+        const rawD = pair.d1 * pair.d2;
+        const target = utils.toMixedOrProper(rawN, rawD);
+        return {
+          prompt: `Evaluate: <strong>${pair.n1}/${pair.d1} &times; ${pair.n2}/${pair.d2}</strong>`,
+          rawN, rawD, target,
+          work: `Multiply across: (${pair.n1} * ${pair.n2}) / (${pair.d1} * ${pair.d2}) = ${rawN}/${rawD}.\nLowest terms (Proper fraction): ${target.display}.`
+        };
+      },
+      () => {
+        const pair = utils.choice([
+          { n1: 3, d1: 4, n2: 9, d2: 10 },
+          { n1: 2, d1: 5, n2: 4, d2: 15 },
+          { n1: 5, d1: 8, n2: 15, d2: 16 },
+          { n1: 6, d1: 7, n2: 3, d2: 14 }
+        ]);
+        const rawN = pair.n1 * pair.d2;
+        const rawD = pair.d1 * pair.n2;
+        const target = utils.toMixedOrProper(rawN, rawD);
+        return {
+          prompt: `Evaluate: <strong>${pair.n1}/${pair.d1} &divide; ${pair.n2}/${pair.d2}</strong>`,
+          rawN, rawD, target,
+          work: `Keep, Change, Flip:\n${pair.n1}/${pair.d1} * ${pair.d2}/${pair.n2} = ${rawN}/${rawD}.\nForm required (Proper / Mixed fraction in lowest terms): ${target.display}.`
+        };
+      },
+      () => {
+        const d1 = utils.choice([3, 4, 6]);
+        const k = utils.choice([2, 3]);
+        const d2 = d1 * k;
+        const n1 = utils.randInt(1, d1 - 1);
+        const n2 = utils.randInt(1, d2 - 1);
+        const rawN = (n1 * k) + n2;
+        const rawD = d2;
+        const target = utils.toMixedOrProper(rawN, rawD);
+        return {
+          prompt: `Evaluate: <strong>${n1}/${d1} + ${n2}/${d2}</strong>`,
+          rawN, rawD, target,
+          work: `LCD is ${d2}.\nSum: ${rawN}/${rawD}.\nForm required (Proper / Mixed fraction in lowest terms): ${target.display}.`
+        };
+      },
+      () => {
+        const pair = utils.choice([
+          { n1: 5, d1: 6, n2: 1, d2: 4 },
+          { n1: 7, d1: 10, n2: 1, d2: 5 },
+          { n1: 8, d1: 9, n2: 2, d2: 3 },
+          { n1: 11, d1: 12, n2: 1, d2: 4 }
+        ]);
+        const rawN = (pair.n1 * pair.d2) - (pair.n2 * pair.d1);
+        const rawD = pair.d1 * pair.d2;
+        const target = utils.toMixedOrProper(rawN, rawD);
+        return {
+          prompt: `Evaluate: <strong>${pair.n1}/${pair.d1} &minus; ${pair.n2}/${pair.d2}</strong>`,
+          rawN, rawD, target,
+          work: `LCD is ${utils.lcm(pair.d1, pair.d2)}.\nDifference: ${rawN}/${rawD}.\nSimplified proper fraction: ${target.display}.`
+        };
+      },
+      () => {
+        const pair = utils.choice([
+          { n1: 4, d1: 9, n2: 3, d2: 8 },
+          { n1: 6, d1: 7, n2: 14, d2: 15 },
+          { n1: 2, d1: 3, n2: 9, d2: 10 }
+        ]);
+        const rawN = pair.n1 * pair.n2;
+        const rawD = pair.d1 * pair.d2;
+        const target = utils.toMixedOrProper(rawN, rawD);
+        return {
+          prompt: `Evaluate: <strong>${pair.n1}/${pair.d1} &times; ${pair.n2}/${pair.d2}</strong>`,
+          rawN, rawD, target,
+          work: `Multiply across: ${rawN}/${rawD}.\nSimplified proper fraction: ${target.display}.`
+        };
+      },
+      () => {
+        const pair = utils.choice([
+          { n1: 8, d1: 15, n2: 4, d2: 5 },
+          { n1: 7, d1: 12, n2: 14, d2: 9 },
+          { n1: 5, d1: 6, n2: 10, d2: 9 }
+        ]);
+        const rawN = pair.n1 * pair.d2;
+        const rawD = pair.d1 * pair.n2;
+        const target = utils.toMixedOrProper(rawN, rawD);
+        return {
+          prompt: `Evaluate: <strong>${pair.n1}/${pair.d1} &divide; ${pair.n2}/${pair.d2}</strong>`,
+          rawN, rawD, target,
+          work: `Keep, Change, Flip:\n${rawN}/${rawD}.\nForm required (Proper / Mixed fraction): ${target.display}.`
+        };
+      },
+      () => {
+        const d1 = utils.choice([5, 8]);
+        const d2 = utils.choice([3, 7]);
+        const n1 = utils.randInt(1, 3);
+        const n2 = utils.randInt(1, 3);
+        const rawN = (n1 * d2) + (n2 * d1);
+        const rawD = d1 * d2;
+        const target = utils.toMixedOrProper(rawN, rawD);
+        return {
+          prompt: `Evaluate: <strong>${n1}/${d1} + ${n2}/${d2}</strong>`,
+          rawN, rawD, target,
+          work: `LCD is ${utils.lcm(d1, d2)}.\nSum: ${rawN}/${rawD}.\nForm required (Proper / Mixed fraction): ${target.display}.`
+        };
+      },
+      () => {
+        const pair = utils.choice([
+          { n1: 7, d1: 8, n2: 1, d2: 2 },
+          { n1: 5, d1: 6, n2: 1, d2: 3 },
+          { n1: 9, d1: 10, n2: 2, d2: 5 },
+          { n1: 11, d1: 14, n2: 2, d2: 7 }
+        ]);
+        const rawN = (pair.n1 * pair.d2) - (pair.n2 * pair.d1);
+        const rawD = pair.d1 * pair.d2;
+        const target = utils.toMixedOrProper(rawN, rawD);
+        return {
+          prompt: `Evaluate: <strong>${pair.n1}/${pair.d1} &minus; ${pair.n2}/${pair.d2}</strong>`,
+          rawN, rawD, target,
+          work: `LCD is ${utils.lcm(pair.d1, pair.d2)}.\nDifference: ${rawN}/${rawD}.\nSimplified proper fraction: ${target.display}.`
+        };
+      }
+    ];
+
+    fracGens.forEach((fn) => {
+      const q = fn();
+      list.push({
+        prompt: q.prompt,
+        type: "fraction",
+        targetObj: q.target,
+        neutralTag: "Fraction Drill",
+        solutionWork: q.work
+      });
+    });
+
+    return list;
+  },
+
+  /* PART IV: 8 Word Problems on Integers (Strictly 2 terms, Philippine context, covers +, -, *, /) */
+  generatePart4: () => {
+    // 1. ADDITION: Baguio / Tagaytay cold spell
+    const item1 = () => {
+      const start = -utils.randInt(2, 6);
+      const rise = utils.randInt(7, 15);
+      const ans = start + rise;
+      const city = utils.choice(["Baguio City", "Tagaytay City", "Atok, Benguet", "Sagada"]);
+      return {
+        prompt: `During an early morning in ${city}, the temperature was <strong>${start}&deg;C</strong>. By afternoon, the thermometer reading <span class="kw">rose by ${rise}&deg;C</span>. What was the afternoon temperature?`,
+        type: "integer",
+        unit: "°C",
+        correctAnswer: ans,
+        neutralTag: "Scenario Problem",
+        solutionWork: `Clue keyword: "rose by" indicates an upward addition (+${rise}).
+Initial temperature: ${start}°C.
+2-term equation: (${start}) + (${rise}) = ${ans}°C.`
+      };
+    };
+
+    // 2. SUBTRACTION: Scuba Diving depth
+    const item2 = () => {
+      const startDepth = -utils.randInt(5, 12);
+      const desc = utils.randInt(3, 8);
+      const ans = startDepth - desc;
+      const loc = utils.choice(["Anilao, Batangas", "Coron, Palawan", "Apo Reef, Mindoro", "Balicasag, Bohol"]);
+      return {
+        prompt: `A scuba diver exploring a coral sanctuary in ${loc} was at <strong>${startDepth} meters</strong> relative to sea level. The diver then <span class="kw">descended another ${desc} meters</span>. What was the diver's new depth?`,
+        type: "integer",
+        unit: "meters",
+        correctAnswer: ans,
+        neutralTag: "Scenario Problem",
+        solutionWork: `Clue keyword: "descended another" indicates moving further down (-${desc}).
+Initial position: ${startDepth} m.
+2-term equation: (${startDepth}) - (${desc}) = ${ans} meters.`
+      };
+    };
+
+    // 3. MULTIPLICATION: Sari-sari store utang accumulation
+    const item3 = () => {
+      const dailyUtang = utils.randInt(3, 8);
+      const days = utils.randInt(2, 5);
+      const ans = (-dailyUtang) * days;
+      const name = utils.choice(["Carlo", "Danilo", "Mang Juan", "Aling Rosa", "Kuya Leo"]);
+      return {
+        prompt: `${name} incurred an utang (debt) of <strong>₱${dailyUtang}</strong> <span class="kw">each day</span> at the neighborhood sari-sari store for <strong>${days} days</strong>. What integer represents his <span class="kw">total change in balance</span> over those ${days} days?`,
+        type: "integer",
+        unit: "pesos",
+        correctAnswer: ans,
+        neutralTag: "Scenario Problem",
+        solutionWork: `Clue keywords: "each day for ${days} days", "total change in balance".
+Daily utang is a debt: -&minus;${dailyUtang} pesos.
+2-term multiplication: (${-dailyUtang}) * ${days} = ${ans} pesos.`
+      };
+    };
+
+    // 4. MULTIPLICATION: Quiz Bowl penalty deduction
+    const item4 = () => {
+      const penalty = utils.randInt(2, 6);
+      const wrongCount = utils.randInt(2, 5);
+      const ans = (-penalty) * wrongCount;
+      const team = utils.choice(["Team Rizal", "Team Bonifacio", "Team Mabini", "Team Silang", "Team Luna"]);
+      return {
+        prompt: `In an inter-school quiz bee in Pasig City, <strong>${penalty} points</strong> are deducted for <span class="kw">every incorrect answer</span>. If ${team} gave <strong>${wrongCount} incorrect answers</strong>, what integer represents the <span class="kw">total point adjustment</span> to their score?`,
+        type: "integer",
+        unit: "points",
+        correctAnswer: ans,
+        neutralTag: "Scenario Problem",
+        solutionWork: `Clue keywords: "deducted for every incorrect answer", "total point adjustment".
+Each deduction is negative: -&minus;${penalty}.
+2-term multiplication: (${-penalty}) * ${wrongCount} = ${ans} points.`
+      };
+    };
+
+    // 5. SUBTRACTION: Elevator descent to basement
+    const item5 = () => {
+      const startFloor = utils.randInt(2, 6);
+      const down = utils.randInt(startFloor + 1, 9);
+      const ans = startFloor - down;
+      const mall = utils.choice(["an MRT-3 station", "an LRT-2 hub", "Megamall", "SM Mall of Asia"]);
+      return {
+        prompt: `An elevator at ${mall} starts on the <strong>${startFloor}nd level</strong>. It then travels <span class="kw">down ${down} levels</span> to reach the underground parking. Counting ground level as 0, what level does it reach?`,
+        type: "integer",
+        unit: "level",
+        correctAnswer: ans,
+        neutralTag: "Scenario Problem",
+        solutionWork: `Clue keyword: "down" indicates moving downward in the negative direction.
+Starting level: +${startFloor}.
+2-term equation: ${startFloor} - ${down} = ${ans} (Level ${ans}).`
+      };
+    };
+
+    // 6. DIVISION: Splitting a shared debt / tricycle fare deficit
+    const item6 = () => {
+      const people = utils.randInt(2, 4);
+      const perPerson = utils.randInt(3, 8);
+      const totalDebt = perPerson * people;
+      const ans = -perPerson;
+      return {
+        prompt: `A group of <strong>${people} friends</strong> shared a special tricycle ride home during heavy rain and incurred a joint utang of <strong>&minus;₱${totalDebt}</strong> at the terminal. If they <span class="kw">split the debt equally</span>, what integer represents the <span class="kw">share of each friend</span>?`,
+        type: "integer",
+        unit: "pesos",
+        correctAnswer: ans,
+        neutralTag: "Scenario Problem",
+        solutionWork: `Clue keywords: "split the debt equally", "share of each friend".
+Total joint utang: -&minus;${totalDebt}.
+2-term division: (${-totalDebt}) ÷ ${people} = ${ans} pesos.`
+      };
+    };
+
+    // 7. DIVISION: Hourly freezer temperature drop in Palengke
+    const item7 = () => {
+      const hours = utils.randInt(2, 5);
+      const dropPerHour = utils.randInt(2, 5);
+      const totalDrop = dropPerHour * hours;
+      const ans = -dropPerHour;
+      const mkt = utils.choice(["Navotas fish port", "Divisoria market", "Balintawak market", "Farmers Market Cubao"]);
+      return {
+        prompt: `In a seafood stall at ${mkt}, an industrial freezer reduced its temperature by a total of <strong>${totalDrop}&deg;C</strong> over a span of <strong>${hours} hours</strong> at a constant rate. What integer represents the <span class="kw">temperature change per hour</span>?`,
+        type: "integer",
+        unit: "°C",
+        correctAnswer: ans,
+        neutralTag: "Scenario Problem",
+        solutionWork: `Clue keywords: "reduced its temperature by a total", "temperature change per hour".
+Total reduction: -&minus;${totalDrop}°C.
+2-term division: (${-totalDrop}) ÷ ${hours} = ${ans}°C per hour.`
+      };
+    };
+
+    // 8. ADDITION: Mountaineer ascending from a ravine
+    const item8 = () => {
+      const ravine = -utils.randInt(3, 8);
+      const climb = utils.randInt(9, 15);
+      const ans = ravine + climb;
+      const mtn = utils.choice(["Mt. Maculot", "Mt. Batulao", "Mt. Pinatubo trail", "Mt. Makiling", "Mt. Pulag"]);
+      return {
+        prompt: `A hiker on ${mtn} begins in a gully at <strong>${ravine} meters</strong> relative to the park ranger outpost. She then <span class="kw">climbs up ${climb} meters</span>. What is her new position relative to the outpost?`,
+        type: "integer",
+        unit: "meters",
+        correctAnswer: ans,
+        neutralTag: "Scenario Problem",
+        solutionWork: `Clue keyword: "climbs up" indicates an upward positive change (+${climb}).
+Initial position: ${ravine} m.
+2-term equation: (${ravine}) + (${climb}) = ${ans} meters relative to the outpost.`
+      };
+    };
+
+    return utils.shuffle([item1(), item2(), item3(), item4(), item5(), item6(), item7(), item8()]);
+  },
+
+  /* PART V: 8 Word Problems on Fractions (Strictly Proper & Mixed Fractions) */
+  generatePart5: () => {
+    // 1. Addition: Buko juice / liquids
+    const item1 = () => {
+      const d1 = utils.choice([4, 6, 8]);
+      const d2 = utils.choice([3, 5]);
+      const n1 = utils.randInt(1, d1 - 1);
+      const n2 = utils.randInt(1, d2 - 1);
+      const rawN = (n1 * d2) + (n2 * d1);
+      const rawD = d1 * d2;
+      const target = utils.toMixedOrProper(rawN, rawD);
+      const name = utils.choice(["Maria", "Grace", "Liza", "Rowena", "Tess"]);
+      const beverage = utils.choice(["fresh buko juice", "calamansi juice", "gulaman drink"]);
+      return {
+        prompt: `${name} prepared ${beverage}. She drank <strong>${n1}/${d1} liter</strong> in the morning and <strong>${n2}/${d2} liter</strong> in the afternoon. How many liters of juice did she drink <span class="kw">altogether</span>?`,
+        type: "fraction",
+        targetObj: target,
+        unit: "liters",
+        neutralTag: "Scenario Problem",
+        solutionWork: `Clue keyword: "altogether" points to combining both amounts.
+2-term expression: ${n1}/${d1} + ${n2}/${d2}.
+LCD of ${d1} and ${d2} is ${utils.lcm(d1, d2)}.
+Sum: ${rawN}/${rawD}.
+Form required (Proper / Mixed fraction in lowest terms): ${target.display} liters.`
+      };
+    };
+
+    // 2. Subtraction: Ribbon trimming for Parol
+    const item2 = () => {
+      const d1 = utils.choice([4, 8, 12]);
+      const d2 = utils.choice([3, 5, 6]);
+      const n1 = d1 - 1;
+      const n2 = 1;
+      const rawN = (n1 * d2) - (n2 * d1);
+      const rawD = d1 * d2;
+      const target = utils.toMixedOrProper(rawN, rawD);
+      const name = utils.choice(["Ana", "Carmela", "Marites", "Jessa", "Kristine"]);
+      return {
+        prompt: `${name} bought a ribbon measuring <strong>${n1}/${d1} meter</strong> to decorate a Christmas parol. She trimmed off <strong>${n2}/${d2} meter</strong> to tie the star frame. How much ribbon is <span class="kw">left</span>?`,
+        type: "fraction",
+        targetObj: target,
+        unit: "meter",
+        neutralTag: "Scenario Problem",
+        solutionWork: `Clue keyword: "left" points to the remaining difference after cutting.
+2-term expression: ${n1}/${d1} - ${n2}/${d2}.
+LCD of ${d1} and ${d2} is ${utils.lcm(d1, d2)}.
+Difference: ${rawN}/${rawD}.
+Proper fraction in lowest terms: ${target.display} meter.`
+      };
+    };
+
+    // 3. Multiplication: Malagkit rice for batches of bibingka
+    const item3 = () => {
+      const f = utils.choice([
+        { n: 2, d: 3 }, { n: 3, d: 4 }, { n: 2, d: 5 }, { n: 3, d: 5 }
+      ]);
+      const batches = utils.randInt(2, 4);
+      const rawN = f.n * batches;
+      const rawD = f.d;
+      const target = utils.toMixedOrProper(rawN, rawD);
+      const baker = utils.choice(["Aling Nita", "Nanay Elena", "Tita Cora", "Manang Joy", "Ate Gina"]);
+      const kakanin = utils.choice(["bibingka", "kutsinta", "biko", "puto bumbong"]);
+      return {
+        prompt: `${baker} uses <strong>${f.n}/${f.d} kilogram</strong> of malagkit rice for one batch of ${kakanin}. How many kilograms of rice are needed for <span class="kw">${batches} batches</span>?`,
+        type: "fraction",
+        targetObj: target,
+        unit: "kg",
+        neutralTag: "Scenario Problem",
+        solutionWork: `Clue keyword: "${batches} batches" indicates scaling the portion.
+2-term expression: ${f.n}/${f.d} * ${batches} = ${rawN}/${rawD}.
+Form required (Mixed fraction or whole number): ${target.display} kg.`
+      };
+    };
+
+    // 4. Division: Fertilizer shared equally among plots
+    const item4 = () => {
+      const f = utils.choice([
+        { n: 3, d: 4 }, { n: 2, d: 3 }, { n: 4, d: 5 }, { n: 5, d: 6 }
+      ]);
+      const plots = utils.randInt(2, 4);
+      const rawN = f.n;
+      const rawD = f.d * plots;
+      const target = utils.toMixedOrProper(rawN, rawD);
+      const farmer = utils.choice(["Mang Pedro", "Mang Ambo", "Tito Sonny", "Mang Kanor", "Mang Isko"]);
+      const crop = utils.choice(["pechay", "talong", "sitaw", "mustasa"]);
+      return {
+        prompt: `${farmer} divided <strong>${f.n}/${f.d} kilogram</strong> of organic fertilizer <span class="kw">equally among ${plots} plots</span> of ${crop} plants. How much fertilizer did each plot receive?`,
+        type: "fraction",
+        targetObj: target,
+        unit: "kg",
+        neutralTag: "Scenario Problem",
+        solutionWork: `Clue keyword: "equally among ${plots} plots" points to partitioning into equal parts.
+2-term expression: ${f.n}/${f.d} ÷ ${plots}.
+Keep, Change, Flip: ${f.n}/${f.d} * 1/${plots} = ${rawN}/${rawD}.
+Proper fraction in lowest terms: ${target.display} kg.`
+      };
+    };
+
+    // 5. Addition: Walking distance to terminal & school
+    const item5 = () => {
+      const pair = utils.choice([
+        { n1: 1, d1: 2, n2: 1, d2: 3 },
+        { n1: 3, d1: 4, n2: 1, d2: 6 },
+        { n1: 2, d1: 5, n2: 1, d2: 4 },
+        { n1: 5, d1: 8, n2: 1, d2: 4 }
+      ]);
+      const rawN = (pair.n1 * pair.d2) + (pair.n2 * pair.d1);
+      const rawD = pair.d1 * pair.d2;
+      const target = utils.toMixedOrProper(rawN, rawD);
+      const student = utils.choice(["Leo", "Rico", "Jayson", "Paolo", "Alden"]);
+      return {
+        prompt: `${student} walked <strong>${pair.n1}/${pair.d1} kilometer</strong> from home to the jeepney stop, and another <strong>${pair.n2}/${pair.d2} kilometer</strong> from the highway to his high school. How far did he walk <span class="kw">in all</span>?`,
+        type: "fraction",
+        targetObj: target,
+        unit: "km",
+        neutralTag: "Scenario Problem",
+        solutionWork: `Clue keyword: "in all" points to the combined total distance.
+2-term expression: ${pair.n1}/${pair.d1} + ${pair.n2}/${pair.d2}.
+LCD of ${pair.d1} and ${pair.d2} is ${utils.lcm(pair.d1, pair.d2)}.
+Sum: ${rawN}/${rawD}.
+Form required (Proper / Mixed fraction): ${target.display} km.`
+      };
+    };
+
+    // 6. Subtraction: Rainwater drum remaining capacity
+    const item6 = () => {
+      const pair = utils.choice([
+        { n1: 5, d1: 6, n2: 1, d2: 3 },
+        { n1: 7, d1: 8, n2: 1, d2: 4 },
+        { n1: 9, d1: 10, n2: 2, d2: 5 },
+        { n1: 11, d1: 12, n2: 1, d2: 6 }
+      ]);
+      const rawN = (pair.n1 * pair.d2) - (pair.n2 * pair.d1);
+      const rawD = pair.d1 * pair.d2;
+      const target = utils.toMixedOrProper(rawN, rawD);
+      return {
+        prompt: `A rainwater drum outside a home in Bulacan was filled to <strong>${pair.n1}/${pair.d1}</strong> of its capacity. After cleaning the porch, <strong>${pair.n2}/${pair.d2}</strong> of the capacity was used. What fraction of the drum's capacity <span class="kw">remains filled</span>?`,
+        type: "fraction",
+        targetObj: target,
+        unit: "capacity",
+        neutralTag: "Scenario Problem",
+        solutionWork: `Clue keyword: "remains filled" points to the leftover portion.
+2-term expression: ${pair.n1}/${pair.d1} - ${pair.n2}/${pair.d2}.
+Difference: ${rawN}/${rawD}.
+Simplified proper fraction: ${target.display}.`
+      };
+    };
+
+    // 7. Multiplication: Leche flan evaporated milk
+    const item7 = () => {
+      const f = utils.choice([
+        { n: 2, d: 5 }, { n: 3, d: 5 }, { n: 3, d: 8 }, { n: 1, d: 3 }
+      ]);
+      const llaneras = utils.randInt(3, 5);
+      const rawN = f.n * llaneras;
+      const rawD = f.d;
+      const target = utils.toMixedOrProper(rawN, rawD);
+      return {
+        prompt: `A traditional recipe for creamy leche flan requires <strong>${f.n}/${f.d} cup</strong> of evaporated milk per llanera. How many cups of milk are needed <span class="kw">in total for ${llaneras} llaneras</span>?`,
+        type: "fraction",
+        targetObj: target,
+        unit: "cups",
+        neutralTag: "Scenario Problem",
+        solutionWork: `Clue keyword: "in total for ${llaneras} llaneras" points to repeated addition across llaneras.
+2-term expression: ${f.n}/${f.d} * ${llaneras} = ${rawN}/${rawD}.
+Form required (Mixed fraction): ${target.display} cups.`
+      };
+    };
+
+    // 8. Division: Tela for Barong Tagalog cuff strips
+    const item8 = () => {
+      const pair = utils.choice([
+        { n1: 3, d1: 4, n2: 1, d2: 4 },
+        { n1: 5, d1: 6, n2: 1, d2: 6 },
+        { n1: 7, d1: 8, n2: 1, d2: 8 },
+        { n1: 4, d1: 5, n2: 1, d2: 5 },
+        { n1: 2, d1: 3, n2: 1, d2: 6 }
+      ]);
+      const rawN = pair.n1 * pair.d2;
+      const rawD = pair.d1 * pair.n2;
+      const target = utils.toMixedOrProper(rawN, rawD);
+      const tailor = utils.choice(["Mang Nestor", "Mang Celso", "Tito Ramon", "Manong Bert"]);
+      return {
+        prompt: `${tailor} has a strip of embroidered jusi fabric measuring <strong>${pair.n1}/${pair.d1} meter</strong> long. He cuts it into smaller collar accents that are each <strong>${pair.n2}/${pair.d2} meter</strong> long. <span class="kw">How many pieces</span> can he make?`,
+        type: "fraction",
+        targetObj: target,
+        unit: "pieces",
+        neutralTag: "Scenario Problem",
+        solutionWork: `Clue keyword: "How many pieces can he make" by cutting into smaller equal sizes.
+2-term expression: ${pair.n1}/${pair.d1} ÷ ${pair.n2}/${pair.d2}.
+Keep, Change, Flip: ${pair.n1}/${pair.d1} * ${pair.d2}/${pair.n2} = ${rawN}/${rawD}.
+Form required (Whole number / Mixed fraction): ${target.display} pieces.`
+      };
+    };
+
+    return utils.shuffle([item1(), item2(), item3(), item4(), item5(), item6(), item7(), item8()]);
+  }
+};
+
+/* Factors helper for display work */
+function factorsList(n) {
+  const f = [];
+  for (let i = 1; i <= n; i++) {
+    if (n % i === 0) f.push(i);
+  }
+  return f;
+}
+
+// Initial UI setup on load
+app.updateHomeProgressUI();
+</script>
+</body>
+</html>
